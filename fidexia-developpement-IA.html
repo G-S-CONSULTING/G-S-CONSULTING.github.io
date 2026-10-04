@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proposition FIDEXIA - L'IA au service de vos dossiers | GS Consulting</title>
+<meta name="description" content="Proposition d'accompagnement à l'IA pour FIDEXIA, préparée par GS Consulting.">
+<meta name="theme-color" content="#0A1330">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #0A1330;
+    --navy: #14234F;
+    --blue: #3358F4;
+    --blue-deep: #2445D6;
+    --peri: #A9BBFF;
+    --paper: #F5F7FC;
+    --white: #FFFFFF;
+    --ink: #0E1426;
+    --ink-2: #3A4459;
+    --muted: #6B7489;
+    --rule: #DDE3F0;
+    --track: #E3E8F5;
+    --soft: #B6C2E4;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --ease: cubic-bezier(.2, .7, .2, 1);
+    box-sizing: border-box;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0F1938; --white: #0B1431; --ink: #E9EDF9; --ink-2: #B7C1E0;
+      --muted: #8A95B8; --rule: #243160; --navy: #C9D4FF; --track: #1D2A55; --soft: #43538A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0F1938; --white: #0B1431; --ink: #E9EDF9; --ink-2: #B7C1E0;
+    --muted: #8A95B8; --rule: #243160; --navy: #C9D4FF; --track: #1D2A55; --soft: #43538A;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { font-family: var(--font); color: var(--ink); background: var(--white); line-height: 1.55; -webkit-font-smoothing: antialiased; font-size: 16px; }
+  a { color: inherit; }
+  b, strong { font-weight: 600; }
+  img, svg { max-width: 100%; }
+  .wrap { width: min(100% - 40px, 1080px); margin-inline: auto; }
+  @media (min-width: 760px) { .wrap { width: min(100% - 80px, 1080px); } }
+  .h2, .quote, h3, .hero h1 { text-wrap: balance; }
+
+  .progress { position: fixed; inset: 0 0 auto 0; height: 2px; background: var(--peri); transform-origin: left; transform: scaleX(0); z-index: 60; }
+
+  /* ============ BANDEAU ============ */
+  .hero { position: relative; overflow: hidden; color: #fff; background: var(--night); padding: calc(56px + env(safe-area-inset-top, 0px)) 0 64px; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(to right, rgba(169,187,255,.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(169,187,255,.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(90% 90% at 85% 20%, #000 20%, transparent 75%); mask-image: radial-gradient(90% 90% at 85% 20%, #000 20%, transparent 75%);
+  }
+  .hero::after { content: ""; position: absolute; width: 780px; height: 780px; right: -260px; top: -320px; pointer-events: none; background: radial-gradient(closest-side, rgba(51,88,244,.55), rgba(51,88,244,0)); }
+  .mark { position: absolute; right: 6%; top: 50%; width: 340px; height: 340px; transform: translateY(-60%); pointer-events: none; z-index: 1; display: none; }
+  .mark circle, .mark line { fill: none; stroke: var(--peri); stroke-width: 1; }
+  .mark .c1 { opacity: .35; } .mark .c2 { opacity: .2; } .mark .c3 { opacity: .12; }
+  .mark line { opacity: .28; stroke-dasharray: 3 6; }
+  .mark .dot { fill: var(--peri); stroke: none; opacity: .9; }
+  @media (min-width: 1020px) { .mark { display: block; } }
+  .hero .wrap { position: relative; z-index: 2; }
+  .kicker { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: var(--peri); }
+  .kicker::before { content: ""; width: 28px; height: 1px; background: var(--peri); }
+  .hero h1 { font-weight: 800; font-size: clamp(40px, 7.4vw, 86px); line-height: .98; letter-spacing: -.04em; margin-top: 22px; max-width: 14ch; }
+  .hero h1 span { display: block; color: var(--peri); font-weight: 500; }
+  .pitch { font-size: clamp(16px, 1.7vw, 18px); color: #BDC8EE; margin-top: 26px; max-width: 58ch; line-height: 1.6; }
+  .pitch b { color: #fff; }
+  .for { margin-top: 28px; font-size: 14.5px; color: #8E9CCB; }
+  .for b { color: #DDE4FF; font-weight: 600; }
+  @media (min-width: 760px) { .hero { padding: 96px 0 196px; } }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; border-radius: 10px; font: 600 15px/1 var(--font); text-decoration: none; border: 1px solid transparent; transition: background-color .2s var(--ease), border-color .2s var(--ease), transform .15s var(--ease); }
+  .btn:active { transform: scale(.98); }
+  .btn svg { width: 19px; height: 19px; flex: none; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: var(--blue-deep); }
+  .btn-line { color: #fff; border-color: rgba(169,187,255,.4); }
+  .btn-line:hover { border-color: var(--peri); background: rgba(169,187,255,.08); }
+  .btn-wa { background: #25D366; color: #06301A; }
+  .btn-wa:hover { background: #1EBE5B; }
+  .btn:focus-visible, a:focus-visible { outline: 2px solid var(--peri); outline-offset: 3px; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+
+  /* ============ CONSTAT CHIFFRÉ ============ */
+  .kpis { position: relative; z-index: 3; display: flow-root; background: var(--paper); }
+  .kpi-panel { background: var(--white); border: 1px solid var(--rule); border-radius: 22px; display: grid; margin-top: -28px; box-shadow: 0 1px 0 rgba(10,19,48,.04), 0 40px 70px -40px rgba(10,19,48,.45); }
+  .kpi { padding: 26px 26px 24px; }
+  .kpi + .kpi { border-top: 1px solid var(--rule); }
+  .kpi .v { font-weight: 800; font-size: clamp(44px, 5.4vw, 62px); letter-spacing: -.04em; line-height: .95; color: var(--blue); display: flex; align-items: baseline; gap: 8px; font-variant-numeric: tabular-nums; }
+  .kpi .v small { font-size: 17px; font-weight: 600; letter-spacing: 0; color: var(--ink-2); }
+  .kpi .l { color: var(--ink-2); margin-top: 12px; font-size: 15px; line-height: 1.5; max-width: 32ch; }
+  .kpi .l b { color: var(--ink); }
+  .kpi-note { padding: 20px 2px 0; font-size: 14px; color: var(--muted); max-width: 70ch; }
+  @media (min-width: 760px) {
+    .kpi-panel { grid-template-columns: repeat(3, 1fr); margin-top: -132px; }
+    .kpi { padding: 34px 34px 32px; }
+    .kpi + .kpi { border-top: 0; border-left: 1px solid var(--rule); }
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .kpi .v { color: var(--peri); } }
+  :root[data-theme="dark"] .kpi .v { color: var(--peri); }
+
+  /* ============ SECTIONS ============ */
+  section { padding: 64px 0; }
+  @media (min-width: 760px) { section { padding: 96px 0; } }
+  .h2 { font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.08; letter-spacing: -.03em; max-width: 20ch; }
+  .lead { color: var(--ink-2); margin-top: 16px; max-width: 58ch; font-size: 17px; }
+  .paper { background: var(--paper); }
+  .head { display: grid; gap: 8px; }
+  @media (min-width: 900px) { .head { grid-template-columns: 1.1fr 1fr; align-items: end; gap: 48px; } .head .lead { margin-top: 0; } }
+
+  /* lignes de constat */
+  .rows { margin-top: 44px; border-top: 1px solid var(--rule); }
+  .row { display: grid; gap: 14px; padding: 28px 0; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 900px) { .row { grid-template-columns: 5fr 7fr; gap: 56px; padding: 34px 0; } }
+  .row h3 { font-weight: 700; font-size: clamp(20px, 2.2vw, 24px); line-height: 1.2; letter-spacing: -.02em; }
+  .res { margin-top: 14px; display: flex; gap: 12px; font-weight: 600; font-size: 15px; line-height: 1.45; color: var(--ink); max-width: 38ch; }
+  .res::before { content: ""; flex: none; width: 3px; border-radius: 3px; background: var(--blue); }
+  .row p { color: var(--ink-2); max-width: 62ch; }
+  .row p + p { margin-top: 10px; }
+  .row p b { color: var(--ink); }
+
+  /* barres vitesse */
+  .bars { margin-top: 22px; display: grid; gap: 10px; max-width: 520px; }
+  .bar { display: grid; grid-template-columns: 90px 1fr 54px; align-items: center; gap: 14px; font-size: 13.5px; color: var(--muted); }
+  .bar .track { height: 10px; background: var(--track); border-radius: 10px; overflow: hidden; }
+  .bar .fill { height: 100%; width: 0; border-radius: 10px; background: var(--blue); transition: width 1.2s var(--ease); }
+  .bar.before .fill { background: var(--soft); }
+  .bar .n { font-weight: 600; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+  .go .fill { width: var(--w); }
+
+  /* ============ POURQUOI UNE REFONTE ============ */
+  .split { display: grid; gap: 32px; }
+  @media (min-width: 900px) { .split { grid-template-columns: 4fr 8fr; gap: 56px; } }
+  .item { padding: 22px 0; border-top: 1px solid var(--rule); display: grid; gap: 6px; }
+  .item:last-child { border-bottom: 1px solid var(--rule); }
+  @media (min-width: 760px) { .item { grid-template-columns: 210px 1fr; gap: 24px; } }
+  .item h3 { text-wrap: pretty; font-size: 17px; font-weight: 700; letter-spacing: -.01em; color: var(--navy); line-height: 1.35; }
+  .item p { color: var(--ink-2); }
+  .item p + p { margin-top: 8px; }
+
+  /* ============ PLANNING ============ */
+  .plan { margin-top: 48px; background: var(--white); border: 1px solid var(--rule); border-radius: 22px; padding: 26px 22px; }
+  @media (min-width: 760px) { .plan { padding: 36px 36px 30px; } }
+  .gantt { display: grid; gap: 22px; }
+  .g-scale, .g-row { display: grid; gap: 10px; }
+  @media (min-width: 820px) { .g-scale, .g-row { grid-template-columns: 250px 1fr; gap: 28px; align-items: center; } .gantt { gap: 18px; } }
+  .g-scale .ticks { display: grid; grid-template-columns: repeat(11, 1fr); font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .g-scale .ticks span { border-left: 1px solid var(--rule); padding-left: 6px; }
+  .g-scale .cap { font-size: 13.5px; color: var(--muted); }
+  .g-scale { display: none; }
+  @media (min-width: 820px) { .g-scale { display: grid; } }
+  .g-row h3 { font-size: 16.5px; font-weight: 700; letter-spacing: -.01em; }
+  .g-row .when { font-size: 13.5px; color: var(--blue); font-weight: 600; margin-top: 2px; }
+  .g-row .what { font-size: 14.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.5; }
+  .g-track { position: relative; height: 34px; background: repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px calc(100% / 11)); border-radius: 8px; }
+  .g-bar { position: absolute; top: 7px; bottom: 7px; left: calc((var(--s) - 1) * 100% / 11); width: 0; border-radius: 6px; background: var(--blue); transition: width 1s var(--ease); }
+  .g-row.alt .g-bar { background: var(--navy); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .g-row.alt .g-bar { background: var(--peri); } }
+  :root[data-theme="dark"] .g-row.alt .g-bar { background: var(--peri); }
+  .g-bar.tail { background: repeating-linear-gradient(45deg, var(--soft) 0 6px, transparent 6px 11px); border: 1px solid var(--soft); }
+  .gantt.go .g-bar { width: calc((var(--e) - var(--s) + 1) * 100% / 11); }
+  .g-val { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; left: calc(var(--at) * 100% / 11); transform: rotate(45deg); background: var(--white); border: 2px solid var(--blue); z-index: 2; }
+  .plan-foot { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: 10px 26px; font-size: 14px; color: var(--muted); }
+  .plan-foot .k { display: inline-flex; align-items: center; gap: 10px; }
+  .k .sw { width: 22px; height: 10px; border-radius: 4px; background: var(--blue); }
+  .k .sw.alt { background: var(--navy); }
+  .k .sw.tail { background: repeating-linear-gradient(45deg, var(--soft) 0 4px, transparent 4px 8px); border: 1px solid var(--soft); }
+  .k .dm { width: 10px; height: 10px; transform: rotate(45deg); border: 2px solid var(--blue); margin: 0 4px; }
+  .plan-note { margin-top: 12px; font-size: 14.5px; color: var(--ink-2); max-width: 70ch; }
+
+  /* livrables */
+  .deliver { display: grid; gap: 40px; margin-top: 64px; }
+  @media (min-width: 900px) { .deliver { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .deliver h3 { font-size: 20px; font-weight: 700; letter-spacing: -.015em; }
+  .deliver > div > p { color: var(--ink-2); margin-top: 8px; max-width: 48ch; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .tag { font-size: 13.5px; font-weight: 500; color: var(--navy); background: var(--paper); border: 1px solid var(--rule); padding: 6px 12px; border-radius: 999px; }
+  .tag.new { background: rgba(51,88,244,.08); border-color: rgba(51,88,244,.35); color: var(--blue); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag.new { color: var(--peri); } }
+  :root[data-theme="dark"] .tag.new { color: var(--peri); }
+  .legend-new { margin-top: 12px; font-size: 13.5px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .legend-new::before { content: ""; width: 12px; height: 12px; border-radius: 999px; background: rgba(51,88,244,.12); border: 1px solid rgba(51,88,244,.45); }
+  .keep { margin-top: 18px; display: grid; gap: 14px; }
+  .keep div { display: flex; gap: 14px; }
+  .keep div::before { content: ""; flex: none; width: 3px; border-radius: 3px; background: var(--blue); }
+  .keep p { color: var(--ink-2); font-size: 15.5px; }
+  .keep p b { color: var(--ink); }
+
+  /* ============ OPTIONS ============ */
+  .opt-tag { display: inline-block; font-size: 14px; font-weight: 600; color: var(--blue); margin-bottom: 14px; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .opt-tag { color: var(--peri); } }
+  :root[data-theme="dark"] .opt-tag { color: var(--peri); }
+
+  .dark { background: var(--night); color: #C3CDEF; position: relative; overflow: hidden; }
+  .dark::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(to right, rgba(169,187,255,.05) 1px, transparent 1px); background-size: 44px 100%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 30%, transparent);
+  }
+  .dark .wrap { position: relative; }
+  .dark .h2 { color: #fff; }
+  .dark .lead { color: #BDC8EE; }
+  .dark .opt-tag { color: var(--peri); }
+  .why { display: grid; margin-top: 44px; }
+  .why div { padding: 22px 0; border-top: 1px solid rgba(169,187,255,.22); }
+  .why h3 { color: #fff; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
+  .why p { margin-top: 8px; font-size: 15.5px; max-width: 42ch; }
+  @media (min-width: 760px) { .why { grid-template-columns: repeat(2, 1fr); column-gap: 48px; } }
+  @media (min-width: 1000px) { .why { grid-template-columns: repeat(4, 1fr); column-gap: 32px; } .why div { border-top: 2px solid var(--peri); padding-top: 24px; } }
+
+  /* graphique des pages */
+  .chart-card { margin-top: 56px; border: 1px solid rgba(169,187,255,.22); border-radius: 22px; padding: 26px 22px 22px; background: rgba(20,35,79,.45); }
+  @media (min-width: 760px) { .chart-card { padding: 34px 36px 28px; } }
+  .chart-card h3 { color: #fff; font-size: 19px; font-weight: 600; letter-spacing: -.015em; }
+  .chart-card > p { font-size: 15px; margin-top: 6px; max-width: 64ch; }
+  .chart { position: relative; height: 260px; margin-top: 28px; margin-left: 34px; border-left: 1px solid rgba(169,187,255,.3); border-bottom: 1px solid rgba(169,187,255,.3); }
+  .band { position: absolute; left: 0; right: 0; top: 0; height: 50%; background: rgba(169,187,255,.08); border-bottom: 1px dashed rgba(169,187,255,.45); }
+  .band span { position: absolute; right: 8px; top: 8px; font-size: 12.5px; color: var(--peri); text-align: right; max-width: 22ch; line-height: 1.35; }
+  .today { position: absolute; left: 0; right: 0; bottom: 15%; border-top: 2px dashed #F2A7A7; z-index: 2; pointer-events: none; }
+  .today span { position: absolute; right: 8px; top: -30px; font-size: 12.5px; font-weight: 600; color: #FFD9D9; background: var(--night); border: 1px solid #F2A7A7; padding: 3px 8px; border-radius: 6px; }
+  .band span { z-index: 2; }
+  .cols { position: absolute; inset: 0 0 0 0; display: grid; grid-template-columns: repeat(13, 1fr); align-items: end; gap: 5px; padding: 0 6px; }
+  .cols .c { height: 0; background: var(--blue); border-radius: 4px 4px 0 0; transition: height .9s var(--ease); position: relative; }
+  .cols .c.first { background: var(--peri); }
+  .chart.go .c { height: var(--h); }
+  .yax { position: absolute; left: -34px; top: 0; bottom: 0; width: 28px; font-size: 11.5px; color: #8E9CCB; font-variant-numeric: tabular-nums; }
+  .yax span { position: absolute; right: 0; transform: translateY(50%); }
+  .xax { display: grid; grid-template-columns: repeat(13, 1fr); gap: 5px; padding: 8px 6px 0; margin-left: 34px; font-size: 11.5px; color: #8E9CCB; text-align: center; font-variant-numeric: tabular-nums; }
+  .chart-key { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 13.5px; color: #AEB9E2; }
+  .chart-key span { display: inline-flex; align-items: center; gap: 8px; }
+  .chart-key i { width: 12px; height: 12px; border-radius: 3px; background: var(--blue); }
+  .chart-key i.p { background: var(--peri); }
+  .chart-caveat { margin-top: 14px; font-size: 14px; color: #8E9CCB; max-width: 72ch; }
+  .xax .m { display: none; }
+  @media (min-width: 560px) { .xax .m { display: inline; } }
+
+  .inc { margin-top: 56px; display: grid; gap: 32px; }
+  @media (min-width: 900px) { .inc { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .inc h3 { color: #fff; font-size: 20px; font-weight: 700; letter-spacing: -.015em; }
+  .checks { list-style: none; margin-top: 16px; display: grid; gap: 12px; }
+  .checks li { display: grid; grid-template-columns: 20px 1fr; gap: 12px; font-size: 15.5px; }
+  .checks li::before { content: ""; width: 14px; height: 8px; margin-top: 6px; border-left: 2px solid var(--peri); border-bottom: 2px solid var(--peri); transform: rotate(-45deg); }
+  .checks li b { color: #fff; }
+  .quote { margin-top: 64px; font-weight: 700; font-size: clamp(26px, 4vw, 44px); line-height: 1.12; letter-spacing: -.03em; color: #fff; max-width: 22ch; }
+  .quote::before { content: "\201C"; display: block; font-size: 1.6em; line-height: .6; color: var(--blue); margin-bottom: 12px; }
+  .quote small { display: block; margin-top: 16px; font-size: 16px; font-weight: 500; letter-spacing: 0; color: #BDC8EE; max-width: 56ch; line-height: 1.55; }
+
+  /* besoins */
+  .needs { counter-reset: n; margin-top: 8px; }
+
+  /* ============ CONTACT ============ */
+  .contact { padding-top: 0; }
+  .contact.pt { padding-top: 64px; }
+  @media (min-width: 760px) { .contact.pt { padding-top: 96px; } }
+  .contact-card { position: relative; overflow: hidden; background: var(--night); color: #fff; border: 1px solid rgba(169,187,255,.18); border-radius: 28px; padding: 40px 26px; display: grid; gap: 32px; }
+  .contact-card::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(to right, rgba(169,187,255,.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(169,187,255,.07) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(80% 120% at 100% 100%, #000 10%, transparent 70%); mask-image: radial-gradient(80% 120% at 100% 100%, #000 10%, transparent 70%);
+  }
+  .contact-card > * { position: relative; }
+  .contact-card .h2 { color: #fff; }
+  .contact-card .lead { color: #BDC8EE; }
+  .contact-card .meta { margin-top: 22px; font-size: 15px; color: var(--peri); font-variant-numeric: tabular-nums; }
+  .contact-card .btns { display: grid; gap: 12px; align-content: center; }
+  .contact-card .btns .btn { padding: 16px 22px; }
+  @media (min-width: 900px) { .contact-card { grid-template-columns: 1.3fr 1fr; gap: 56px; padding: 64px; align-items: center; } }
+
+  footer { padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+
+  /* mouvement : une seule séquence d'ouverture */
+  .load { opacity: 0; transform: translateY(14px); animation: rise .8s var(--ease) forwards; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .15s; } .d3 { animation-delay: .28s; }
+  .d4 { animation-delay: .38s; } .d5 { animation-delay: .48s; } .d6 { animation-delay: .62s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .mark .c1, .mark .c2, .mark .c3 { stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: draw 2.2s var(--ease) .3s forwards; }
+  .mark .c2 { animation-delay: .5s; } .mark .c3 { animation-delay: .7s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .load { opacity: 1; transform: none; animation: none; }
+    .mark .c1, .mark .c2, .mark .c3 { animation: none; stroke-dashoffset: 0; }
+    .bar .fill, .g-bar, .cols .c { transition: none; }
+  }
+  @media print {
+    .progress { display: none; }
+    .load { opacity: 1; transform: none; animation: none; }
+    .bar .fill { width: var(--w); } .gantt .g-bar { width: calc((var(--e) - var(--s) + 1) * 100% / 11); } .chart .c { height: var(--h); }
+    section, .hero { break-inside: avoid-page; }
+  }
+
+  /* ===== Composants de l'offre IA ===== */
+  .cards { margin-top: 40px; display: grid; gap: 16px; }
+  @media (min-width: 700px) { .cards.c2, .cards.c3 { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .cards.c3 { grid-template-columns: repeat(3, 1fr); } }
+  .card { position: relative; background: var(--white); border: 1px solid var(--rule); border-radius: 18px; padding: 26px 24px 24px; }
+  .card::before { content: ""; position: absolute; left: 24px; top: 0; width: 38px; height: 3px; border-radius: 0 0 3px 3px; background: var(--blue); }
+  .card h3 { font-size: 18px; font-weight: 700; letter-spacing: -.015em; color: var(--navy); line-height: 1.3; margin-top: 4px; }
+  .card p { color: var(--ink-2); margin-top: 10px; font-size: 15.5px; }
+  .card .when-tag { display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--blue); }
+  .paper .card { background: var(--white); }
+  .dark .card { background: rgba(20,35,79,.55); border-color: rgba(169,187,255,.22); }
+  .dark .card::before { background: var(--peri); }
+  .dark .card h3 { color: #fff; }
+  .dark .card p { color: #BDC8EE; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .card .when-tag { color: var(--peri); } }
+  :root[data-theme="dark"] .card .when-tag { color: var(--peri); }
+
+  .num { counter-reset: n; }
+  .num .item { grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .num .item { grid-template-columns: 56px 1fr; gap: 20px; } }
+  .num .item .n { font-weight: 800; font-size: 28px; line-height: 1; color: var(--blue); letter-spacing: -.03em; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .num .item .n { color: var(--peri); } }
+  :root[data-theme="dark"] .num .item .n { color: var(--peri); }
+
+  .big { margin-top: 56px; font-weight: 700; font-size: clamp(28px, 4.4vw, 48px); line-height: 1.1; letter-spacing: -.035em; color: #fff; max-width: 22ch; }
+  .big span { color: var(--peri); }
+
+  .flow { margin-top: 40px; display: grid; gap: 14px; }
+  .flow-row { display: grid; gap: 10px; }
+  @media (min-width: 860px) { .flow-row { grid-template-columns: 110px 1fr; gap: 18px; align-items: center; } }
+  .flow-row .lab { font-size: 14px; font-weight: 700; color: var(--muted); }
+  .flow-row.after .lab { color: var(--blue); }
+  .steps { display: grid; gap: 8px; }
+  @media (min-width: 640px) { .steps { grid-auto-flow: column; grid-auto-columns: 1fr; } }
+  .steps span { font-size: 14px; line-height: 1.35; padding: 12px 14px; border-radius: 10px; background: var(--track); color: var(--ink-2); display: flex; align-items: center; }
+  .flow-row.after .steps span { background: rgba(51,88,244,.1); color: var(--navy); font-weight: 600; }
+  .flow-row.after .steps span.ok { background: var(--blue); color: #fff; }
+  .flow-note { margin-top: 6px; display: flex; gap: 12px; font-size: 15px; color: var(--ink-2); max-width: 72ch; }
+  .flow-note::before { content: ""; flex: none; width: 3px; border-radius: 3px; background: var(--blue); }
+  .flow-note b { color: var(--ink); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .flow-row.after .lab { color: var(--peri); } :root:not([data-theme="light"]) .flow-row.after .steps span { color: var(--ink); } }
+  :root[data-theme="dark"] .flow-row.after .lab { color: var(--peri); }
+  :root[data-theme="dark"] .flow-row.after .steps span { color: var(--ink); }
+
+  .sub { margin-top: 64px; }
+  .sub h3 { font-size: clamp(22px, 2.6vw, 28px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
+  .sub p { color: var(--ink-2); margin-top: 10px; max-width: 62ch; }
+
+  .g16 .g-scale .ticks { grid-template-columns: repeat(16, 1fr); }
+  .g16 .g-scale .ticks span { padding-left: 4px; }
+  .g16 .g-track { background: repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px calc(100% / 16)); }
+  .g16 .g-bar { left: calc((var(--s) - 1) * 100% / 16); }
+  .gantt.g16.go .g-bar { width: calc((var(--e) - var(--s) + 1) * 100% / 16); }
+  .g16 .g-val { left: calc(var(--at) * 100% / 16); }
+  .g16 .g-row.light .g-bar { background: var(--soft); }
+  @media print { .gantt.g16 .g-bar { width: calc((var(--e) - var(--s) + 1) * 100% / 16); } }
+
+  @media (min-width: 1000px) { .why.w3 { grid-template-columns: repeat(3, 1fr); column-gap: 40px; } }
+  .note-band { margin-top: 18px; padding: 16px 20px; border-radius: 14px; background: var(--white); border: 1px solid var(--rule); color: var(--ink-2); font-size: 15.5px; }
+  .note-band b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="hero">
+  <svg class="mark" viewBox="0 0 360 360" aria-hidden="true">
+    <circle class="c3" cx="180" cy="180" r="176"/><circle class="c2" cx="180" cy="180" r="120"/><circle class="c1" cx="180" cy="180" r="62"/>
+    <line x1="180" y1="0" x2="180" y2="360"/><line x1="0" y1="180" x2="360" y2="180"/><circle class="dot" cx="180" cy="180" r="3.5"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker load d1">Proposition pour FIDEXIA</div>
+    <h1 class="load d2">L'IA au service <span>de vos dossiers</span></h1>
+    <p class="pitch load d3">Relancer les pièces, répondre aux mails clients, préparer une approbation de comptes ou un rendez-vous bilan&nbsp;: vos équipes peuvent gagner un temps considérable sur ces tâches quotidiennes. <b>Cette proposition part de votre métier, et non des outils, pour une mise en place rapide, sûre et utile dès les premières semaines.</b></p>
+    <div class="cta-row load d4">
+      <a class="btn btn-primary" href="#juridique">Découvrir l'offre</a>
+      <a class="btn btn-line" href="#deroule">Voir le déroulé</a>
+    </div>
+    <p class="for load d5">Préparée pour <b>la direction de FIDEXIA</b> par <b>Geoffrey Sahuquet, GS Consulting</b>, octobre 2026</p>
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="wrap">
+    <div class="kpi-panel load d6">
+      <div class="kpi"><div class="v">1<small>mois</small></div><div class="l">pour les <b>premiers usages concrets</b> au sein du bureau pilote.</div></div>
+      <div class="kpi"><div class="v">2<small>terrains pilotes</small></div><div class="l">le bureau de Saint-Pierre-du-Perray et le pôle juridique, <b>avant tout déploiement.</b></div></div>
+      <div class="kpi"><div class="v">1<small>charte</small></div><div class="l">d'usage <b>conforme au secret professionnel</b>, posée avant le moindre usage.</div></div>
+    </div>
+    <p class="kpi-note">Document de travail confidentiel, établi pour la direction de FIDEXIA.</p>
+  </div>
+</div>
+
+<section class="paper" id="contexte">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="h2">Pourquoi maintenant</h2>
+      <p class="lead">L'IA est déjà dans le cabinet, que la direction l'ait décidé ou non. Des collaborateurs l'utilisent ponctuellement, chacun à sa façon, souvent avec des versions gratuites qui ne garantissent pas la confidentialité des données.</p>
+    </div>
+    <div class="cards c3">
+      <div class="card"><h3>Le temps</h3><p>Relances, mails, actes juridiques courants, préparation des rendez-vous&nbsp;: ces tâches répétitives occupent une part importante des journées. Ce sont précisément celles que l'IA allège le mieux.</p></div>
+      <div class="card"><h3>La sécurité</h3><p>Un usage encadré, avec des outils professionnels et des règles claires, protège le cabinet et ses clients. Pour une profession tenue au secret, ce n'est pas un détail.</p></div>
+      <div class="card"><h3>L'obligation</h3><p>Depuis février 2025, le règlement européen sur l'IA impose aux entreprises qui l'utilisent de former leurs équipes à une maîtrise suffisante de ces outils.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="approche">
+  <div class="wrap split">
+    <div>
+      <h2 class="h2">Partir de vos dossiers, pas des outils</h2>
+      <p class="lead">Un collaborateur n'a pas besoin d'apprendre à «&nbsp;parler à une IA&nbsp;» en général. Il a besoin que la relance des pièces, la préparation d'un rendez-vous bilan ou la rédaction d'un procès-verbal lui prennent beaucoup moins de temps.</p>
+    </div>
+    <div class="num">
+      <div class="item"><span class="n">1</span><div><h3>Partir des tâches réelles du cabinet</h3><p>Pôle par pôle, en observant le travail tel qu'il se fait aujourd'hui et en mesurant le temps qu'il demande.</p></div></div>
+      <div class="item"><span class="n">2</span><div><h3>Livrer des outils prêts à l'emploi</h3><p>Des assistants configurés pour votre métier, vos modèles et vos procédures, utilisables dès le lendemain de la formation.</p></div></div>
+      <div class="item"><span class="n">3</span><div><h3>Garder le professionnel aux commandes</h3><p>L'IA prépare, le collaborateur vérifie et valide. Rien ne part chez un client sans relecture.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="cadre">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="h2">Un cadre sûr dès le premier jour</h2>
+      <p class="lead">Avant le moindre usage, nous posons ensemble le cadre qui protège le cabinet, ses collaborateurs et ses clients.</p>
+    </div>
+    <div class="cards c2">
+      <div class="card"><h3>Des outils professionnels</h3><p>Des solutions adaptées à votre environnement et à votre messagerie, dont les conditions garantissent que vos données ne servent pas à entraîner les modèles. Le choix est fait avec vous, à l'issue du diagnostic.</p></div>
+      <div class="card"><h3>Une charte d'usage</h3><p>Courte et concrète&nbsp;: ce qu'on peut confier à l'IA, ce qu'on ne lui confie jamais, comment anonymiser une pièce, qui valide quoi. Elle est présentée à chaque collaborateur lors de sa formation.</p></div>
+      <div class="card"><h3>Des règles de relecture</h3><p>Adaptées à chaque type de production&nbsp;: un mail de relance ne se vérifie pas comme un acte juridique ou une note de synthèse destinée à un client.</p></div>
+      <div class="card"><h3>Une traçabilité simple</h3><p>Les usages sont suivis, pour pouvoir répondre à une question d'un client, à un contrôle qualité ou à une évolution de la réglementation.</p></div>
+    </div>
+    <p class="big">L'IA prépare. <span>Le professionnel vérifie et valide.</span></p>
+  </div>
+</section>
+
+<section class="paper" id="juridique">
+  <div class="wrap">
+    <span class="opt-tag">Premier chantier</span>
+    <div class="head">
+      <h2 class="h2">Le juridique&nbsp;: une première version fiable, dès le départ</h2>
+      <p class="lead">Des actes très encadrés, répétitifs, souvent facturés au forfait&nbsp;: le secrétariat juridique est le terrain où l'IA apporte le plus. L'enjeu n'est pas seulement d'aller plus vite, c'est d'obtenir dès la première version un document juste, que le juriste n'a plus qu'à vérifier.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-row"><span class="lab">Aujourd'hui</span><div class="steps"><span>Collecte des informations</span><span>Rédaction à partir des modèles</span><span>Relecture</span><span>Corrections et reprises</span><span>Validation</span></div></div>
+      <div class="flow-row after"><span class="lab">Demain</span><div class="steps"><span>Préparation automatique à partir du dossier et de vos modèles validés</span><span>Contrôles de cohérence automatiques</span><span class="ok">Relecture et validation par le juriste</span></div></div>
+      <p class="flow-note"><span>Chaque reprise d'un acte mal préparé coûte deux fois&nbsp;: le temps de le préparer, puis celui de le corriger. <b>Moins de reprises, ce sont des délais tenus et une marge préservée.</b></span></p>
+    </div>
+    <div class="cards c2">
+      <div class="card"><h3>L'approbation annuelle des comptes</h3><p>À partir des données du dossier et des comptes de l'exercice, l'IA prépare l'ensemble des documents&nbsp;: convocations, texte des résolutions, procès-verbal ou décision de l'associé unique, rapport de gestion lorsqu'il est requis, feuille de présence. Dates, montants, noms et capital sont vérifiés d'un document à l'autre.</p></div>
+      <div class="card"><h3>Le suivi des échéances par dossier</h3><p>Date limite d'approbation, dépôt des comptes au greffe, mandats à renouveler&nbsp;: un tableau de suivi pour chaque dossier, avec des alertes avant chaque échéance. Plus aucune approbation traitée dans l'urgence de fin de délai.</p></div>
+      <div class="card"><h3>Les opérations courantes</h3><p>Transfert de siège, changement de dirigeant, cession de parts, augmentation de capital, modification de l'objet&nbsp;: projets de décisions, mise à jour des statuts, texte de l'annonce légale et liste des pièces à réunir pour la formalité.</p></div>
+      <div class="card"><h3>La lecture rapide des documents longs</h3><p>Statuts, pactes d'associés, baux commerciaux&nbsp;: une synthèse d'une page des clauses qui comptent (durée, agrément, préemption, révision du loyer, conditions de sortie), avec le renvoi vers l'article concerné.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="bureaux">
+  <div class="wrap">
+    <span class="opt-tag">Dans les bureaux, au quotidien</span>
+    <h2 class="h2">Moins de temps sur les relances, plus de temps pour le conseil</h2>
+    <div class="rows">
+      <article class="row">
+        <div><h3>La relance des pièces manquantes</h3><div class="res">Une tâche ingrate, répétée chaque mois sur chaque dossier.</div></div>
+        <div><p>L'IA établit la liste des pièces manquantes par client, rédige une relance personnalisée et claire, puis prépare les relances suivantes si rien n'arrive. Le collaborateur garde une vue d'ensemble de ce qui est attendu, et de qui.</p></div>
+      </article>
+      <article class="row">
+        <div><h3>Le tri et la préparation des réponses aux mails</h3><div class="res">Chaque demande classée, les réponses courantes prêtes à envoyer.</div></div>
+        <div><p>Chaque mail entrant est classé par dossier, par type de demande et par urgence. Pour les questions courantes (attestation, échéance, document à transmettre, question fiscale simple), un projet de réponse est préparé, que le collaborateur relit et envoie. Les demandes qui relèvent d'un autre pôle sont orientées vers la bonne personne.</p></div>
+      </article>
+    </div>
+    <div class="sub">
+      <h3>Le rendez-vous bilan, transformé</h3>
+      <p>C'est le moment le plus important de la relation client, et celui où le cabinet peut proposer des missions complémentaires. L'IA permet d'en faire un vrai temps de conseil.</p>
+    </div>
+    <div class="cards c3">
+      <div class="card"><h3>Une note de préparation</h3><p>Pour le collaborateur&nbsp;: variations significatives par rapport à l'exercice précédent, points d'attention (trésorerie, endettement, marges), questions à poser au dirigeant et pistes de missions à proposer, de la rémunération du dirigeant à la transmission.</p><span class="when-tag">Avant le rendez-vous</span></div>
+      <div class="card"><h3>Une restitution interactive</h3><p>Pour le client&nbsp;: une page aux couleurs du cabinet, consultable sur ordinateur comme sur téléphone, qui présente les chiffres clés en langage simple. Pensée pour un dirigeant qui n'est pas financier, et qu'il aura envie de montrer à son banquier.</p><span class="when-tag">Pendant le rendez-vous</span></div>
+      <div class="card"><h3>Un compte rendu</h3><p>Les décisions prises, les actions à mener et les échéances, rédigés à partir des notes du collaborateur et envoyés au client dans la journée. Le rendez-vous se prolonge en plan d'action.</p><span class="when-tag">Après le rendez-vous</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="cabinet">
+  <div class="wrap">
+    <span class="opt-tag">Pour tout le cabinet</span>
+    <h2 class="h2">Le social, la veille et la mémoire du cabinet</h2>
+    <div class="rows">
+      <article class="row">
+        <div><h3>Le social</h3><div class="res">Des réponses sourcées, des documents prêts à relire.</div></div>
+        <div><p>Réponses aux questions de paie et de convention collective avec les références précises, projets de contrats et d'avenants à partir des modèles du cabinet, explication claire d'un bulletin ou d'une régularisation pour un client. <b>Les chiffres restent produits par votre logiciel de paie&nbsp;: l'IA prépare les textes, le gestionnaire vérifie.</b></p></div>
+      </article>
+      <article class="row">
+        <div><h3>La veille fiscale et sociale</h3><div class="res">Les nouveautés de la semaine, triées par secteur.</div></div>
+        <div><p>Chaque semaine, une synthèse des nouveautés fiscales, sociales et juridiques, triée selon les secteurs de vos clients, avec ce que chaque changement implique concrètement. Les associés repèrent les sujets à porter auprès des clients, et cette veille peut alimenter les articles du site.</p></div>
+      </article>
+      <article class="row">
+        <div><h3>Une base de connaissances interne</h3><div class="res">Les procédures du cabinet, interrogeables en langage courant.</div></div>
+        <div><p>Procédures, modèles, notes techniques et réponses déjà apportées, consultables en posant simplement la question. Un vrai gain pour l'accueil des nouveaux collaborateurs et pour harmoniser les pratiques entre les bureaux et les pôles.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="deroule">
+  <div class="wrap">
+    <span class="opt-tag">Le déroulé</span>
+    <div class="head">
+      <h2 class="h2">Un pilote sur deux terrains, avant tout déploiement</h2>
+      <p class="lead">Le bureau de Saint-Pierre-du-Perray pour la production comptable, le pôle juridique pour les actes. Un périmètre limité, des gains mesurés sur vos propres dossiers, et une décision de déploiement prise sur des faits.</p>
+    </div>
+    <div class="plan">
+      <div class="gantt g16" id="gantt">
+        <div class="g-scale" aria-hidden="true"><span class="cap">Semaines</span><div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span></div></div>
+        <div class="g-row ">
+          <div><h3>Diagnostic et cadre</h3><div class="when">Semaines 1 à 3</div><p class="what">Entretiens et observation au poste dans chaque terrain pilote, mesure des temps, choix des outils, charte d'usage.</p></div>
+          <div class="g-track" aria-hidden="true"><div class="g-bar" style="--s:1;--e:3"></div><i class="g-val" style="--at:3"></i></div>
+        </div>
+        <div class="g-row alt">
+          <div><h3>Formation et premiers usages</h3><div class="when">Semaines 4 et 5</div><p class="what">Sessions par métier sur vos propres cas, mise à disposition des assistants configurés.</p></div>
+          <div class="g-track" aria-hidden="true"><div class="g-bar" style="--s:4;--e:5"></div><i class="g-val" style="--at:5"></i></div>
+        </div>
+        <div class="g-row ">
+          <div><h3>Chantier juridique</h3><div class="when">Semaines 5 à 12</div><p class="what">Approbations annuelles d'abord, puis suivi des échéances et opérations courantes.</p></div>
+          <div class="g-track" aria-hidden="true"><div class="g-bar" style="--s:5;--e:12"></div><i class="g-val" style="--at:12"></i></div>
+        </div>
+        <div class="g-row alt">
+          <div><h3>Chantier bureau pilote</h3><div class="when">Semaines 6 à 12</div><p class="what">Relances des pièces, mails clients, préparation et restitution des rendez-vous bilan.</p></div>
+          <div class="g-track" aria-hidden="true"><div class="g-bar" style="--s:6;--e:12"></div><i class="g-val" style="--at:12"></i></div>
+        </div>
+        <div class="g-row light">
+          <div><h3>Mesure et ajustements</h3><div class="when">Semaines 13 et 14</div><p class="what">Temps gagné mesuré tâche par tâche, retours des équipes, corrections.</p></div>
+          <div class="g-track" aria-hidden="true"><div class="g-bar" style="--s:13;--e:14"></div></div>
+        </div>
+        <div class="g-row ">
+          <div><h3>Bilan du pilote</h3><div class="when">Semaines 15 et 16</div><p class="what">Résultats présentés à la direction et plan de déploiement.</p></div>
+          <div class="g-track" aria-hidden="true"><div class="g-bar" style="--s:15;--e:16"></div><i class="g-val" style="--at:16"></i></div>
+        </div>
+      </div>
+      <div class="plan-foot">
+        <span class="k"><i class="sw"></i>Travail GS Consulting</span>
+        <span class="k"><i class="dm"></i>Validation de la direction</span>
+      </div>
+    </div>
+    <div class="cards c2">
+      <div class="card"><h3>Le déploiement</h3><p>Une fois le pilote validé, les outils et la formation sont étendus aux autres bureaux et au pôle social, en trois à quatre mois. Les collaborateurs du pilote deviennent les relais auprès de leurs collègues.</p></div>
+      <div class="card"><h3>Le suivi</h3><p>Un accompagnement mensuel pour faire vivre les usages&nbsp;: nouveaux besoins, ajustement des assistants, accueil des nouveaux collaborateurs, point régulier sur les gains obtenus.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="paper" id="formation">
+  <div class="wrap">
+    <span class="opt-tag">La formation</span>
+    <div class="head">
+      <h2 class="h2">Une formation par métier, sur vos propres dossiers</h2>
+      <p class="lead">Pas de formation générique. Chaque session est construite pour un métier, avec des exemples tirés de vos dossiers, anonymisés.</p>
+    </div>
+    <div class="cards c2">
+      <div class="card"><h3>Collaborateurs comptables</h3><p>Relances, mails clients, préparation des rendez-vous bilan, notes de synthèse.</p></div>
+      <div class="card"><h3>Juristes</h3><p>Approbations, opérations courantes, lecture de statuts et de baux.</p></div>
+      <div class="card"><h3>Gestionnaires de paie</h3><p>Questions de convention collective, documents RH, explications aux clients.</p></div>
+      <div class="card"><h3>Associés et directions de bureau</h3><p>Préparation des rendez-vous de conseil, veille, notes et propositions.</p></div>
+    </div>
+    <p class="note-band">Chaque participant repart avec <b>des assistants déjà configurés pour son métier</b>, utilisables dès le lendemain. Un référent IA est désigné dans chaque bureau et chaque pôle pour faire vivre les bonnes pratiques.</p>
+  </div>
+</section>
+
+<section class="dark" id="apport">
+  <div class="wrap">
+    <span class="opt-tag">GS Consulting</span>
+    <h2 class="h2">Pourquoi travailler avec moi</h2>
+    <div class="why w3">
+      <div><h3>Je connais votre métier de l'intérieur</h3><p>J'ai travaillé plusieurs années en cabinet d'expertise comptable et je tiens aujourd'hui la comptabilité de plusieurs sociétés. Je sais ce qu'est une approbation en fin de délai ou une relance qui reste sans réponse.</p></div>
+      <div><h3>Je conçois et je réalise les outils</h3><p>J'assure la direction informatique de plusieurs entreprises, où j'ai développé des applications utilisées au quotidien et formé les équipes, au bureau comme sur le terrain, à l'usage de l'IA.</p></div>
+      <div><h3>Un seul interlocuteur</h3><p>La personne qui analyse vos besoins est celle qui configure les outils, forme vos équipes et répond à vos questions six mois plus tard.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="besoins">
+  <div class="wrap split">
+    <div>
+      <h2 class="h2">Ce que je vous demanderai</h2>
+      <p class="lead">Un investissement en temps concentré sur les premières semaines, puis limité aux validations.</p>
+    </div>
+    <div>
+      <div class="item"><h3>Un interlocuteur par terrain pilote</h3><p>Au bureau de Saint-Pierre-du-Perray et au pôle juridique, pour organiser le pilote, centraliser les retours et valider les étapes.</p></div>
+      <div class="item"><h3>Du temps pour le diagnostic</h3><p>Une demi-journée par terrain pilote&nbsp;: entretiens avec les responsables, puis observation de deux ou trois collaborateurs à leur poste de travail.</p></div>
+      <div class="item"><h3>Des dossiers de référence</h3><p>Quelques dossiers types anonymisés, ainsi que des actes juridiques déjà validés, qui serviront de modèles aux assistants.</p></div>
+      <div class="item"><h3>Des collaborateurs volontaires</h3><p>Deux ou trois personnes par terrain pilote pour tester les premiers outils et faire remonter leurs retours.</p></div>
+      <div class="item"><h3>Une décision sur les outils</h3><p>À l'issue du diagnostic, sur la base de mes recommandations et de votre environnement actuel.</p></div>
+      <div class="item"><h3>Un point de validation par étape</h3><p>Fin du diagnostic, fin des chantiers et bilan du pilote, avec la direction.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-card">
+      <div>
+        <h2 class="h2">Échangeons sur votre projet</h2>
+        <p class="lead">Une heure pour préciser vos priorités, valider le périmètre du pilote et fixer un calendrier. Les tarifs du pilote, du déploiement et du suivi vous seront communiqués sur devis, établi après cet échange.</p>
+        <p class="meta">06 79 98 26 08 · geoffrey.sahuquet@gmail.com</p>
+      </div>
+      <div class="btns">
+        <a class="btn btn-primary" href="mailto:geoffrey.sahuquet@gmail.com?subject=Offre%20IA%20FIDEXIA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Proposer un rendez-vous par email</a>
+        <a class="btn btn-wa" href="https://wa.me/33679982608?text=Bonjour%20Geoffrey%2C%20suite%20%C3%A0%20votre%20proposition%20IA%20pour%20FIDEXIA" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>M'écrire sur WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>Geoffrey Sahuquet, GS Consulting</span>
+    <span>Proposition établie pour FIDEXIA, octobre 2026</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var bar = document.getElementById('progress');
+  function onScroll() {
+    var h = document.documentElement;
+    var p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+    bar.style.transform = 'scaleX(' + Math.min(1, Math.max(0, p)) + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  var targets = document.querySelectorAll('#gantt');
+  if (reduce || !('IntersectionObserver' in window)) { targets.forEach(function (t) { t.classList.add('go'); }); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('go'); io.unobserve(e.target); } });
+  }, { threshold: 0.25 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+</script>
+</body>
+</html>
