@@ -10,6 +10,8 @@
   const root = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  /* Écran étroit ou tactile : animations allégées (pas de masque animé, moins d'éléments animés un par un) */
+  const light = matchMedia('(max-width: 999.98px), (pointer: coarse)').matches;
 
   const nav = $('#nav');
   const menu = $('#menu');
@@ -111,6 +113,8 @@
 
   gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
   gsap.defaults({ overwrite: 'auto' });
+  /* iOS : la barre d'adresse qui se replie ne doit pas relancer tous les calculs de scroll */
+  ScrollTrigger.config({ ignoreMobileResize: true });
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   window.scrollTo(0, 0);
   root.style.overflow = 'hidden';
@@ -127,17 +131,28 @@
       .from('.intro-mark .lv', { scaleY: 0, transformOrigin: '50% 50%', duration: 1.1 }, 0.08)
       .from('.intro-mark .dot', { scale: 0, transformOrigin: '50% 50%', duration: 0.6, ease: 'back.out(3)' }, 0.2)
       .to('.intro-mark .c', { strokeDashoffset: 0, duration: 1.5, stagger: 0.14, ease: 'power3.inOut' }, 0.15)
-      .from('.intro-foot span, .intro-count', { opacity: 0, y: 10, duration: 0.6, stagger: 0.08 }, 0.2)
+      .from('.intro-foot > *, .intro-count', { opacity: 0, y: 10, duration: 0.6, stagger: 0.08 }, 0.2)
+      .from('.intro-logo', { opacity: 0, scale: 0.6, duration: 0.9 }, 0.75)
+      .to('.intro-mark .dot', { opacity: 0, duration: 0.3, ease: 'none' }, 0.75)
       .to(o, { v: 100, duration: 1.5, ease: 'power2.inOut', onUpdate() { count.textContent = String(Math.round(o.v)).padStart(3, '0'); } }, 0.25)
       .call(() => { label.textContent = 'À votre mesure'; }, null, 1.75)
       .to({}, { duration: 0.2 });
   }
 
   function openIntro() {
+    const tl = gsap.timeline({ onComplete() { intro.remove(); } });
+    if (light) {
+      /* Mobile / tactile : simple fondu, entièrement géré par la carte graphique */
+      tl.to('.intro-inner', { scale: 1.25, opacity: 0, duration: 0.55, ease: 'power2.in' }, 0)
+        .to('.intro-foot', { opacity: 0, duration: 0.35 }, 0)
+        .to(intro, { opacity: 0, duration: 0.6, ease: 'power2.inOut' }, 0.3)
+        .add(heroEntrance(), 0.45)
+        .call(() => { smoother.paused(false); }, null, 0.8);
+      return;
+    }
     const R = Math.hypot(innerWidth, innerHeight) / 2 + 60;
     intro.classList.add('is-opening');
-    gsap.timeline({ onComplete() { intro.remove(); } })
-      .to('.intro-inner', { scale: 1.5, opacity: 0, duration: 0.8, ease: 'power2.in' }, 0)
+    tl.to('.intro-inner', { scale: 1.5, opacity: 0, duration: 0.8, ease: 'power2.in' }, 0)
       .to('.intro-foot', { opacity: 0, duration: 0.4 }, 0)
       .fromTo(intro, { '--hole': '0px' }, { '--hole': `${R}px`, duration: 1.3, ease: 'expo.inOut' }, 0.1)
       .add(heroEntrance(), 0.6)
@@ -163,25 +178,37 @@
     const hero = $('.hero');
     const stage = $('.stage');
     const wrap = $('.stage-wrap');
-    gsap.set(stage, { rotationX: 44, scale: 0.9 });
+    const mm = gsap.matchMedia();
 
-    const finalY = () => Math.max(84, (innerHeight - stage.offsetHeight) / 2 + 24) - wrap.offsetTop;
+    /* Écran large : le hero est épinglé, la fenêtre se redresse et prend l'écran */
+    mm.add('(min-width: 1000px)', () => {
+      gsap.set(stage, { rotationX: 44, scale: 0.9 });
+      const finalY = () => Math.max(84, (innerHeight - stage.offsetHeight) / 2 + 24) - wrap.offsetTop;
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: hero, start: 'top top', end: '+=115%', pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 1 },
+      });
+      tl.to('.hero-copy', { yPercent: -18, opacity: 0, scale: 0.95, duration: 0.42, ease: 'power2.in' }, 0)
+        .to('.scroll-hint', { opacity: 0, duration: 0.15 }, 0)
+        .to(stage, { rotationX: 0, scale: 1, y: finalY, duration: 1, ease: 'power2.inOut' }, 0)
+        .to('.hero-halo', { yPercent: 16, scale: 1.18, duration: 1, ease: 'none' }, 0)
+        .to('.hero-grid', { yPercent: -7, duration: 1, ease: 'none' }, 0)
+        .from('.kpi, .todo-row', { opacity: 0, y: 14, duration: 0.3, stagger: 0.04, ease: 'power2.out' }, 0.28)
+        .from('.bars i', { scaleY: 0, duration: 0.45, stagger: 0.03, ease: 'power3.out' }, 0.36);
+      $$('.float').forEach((f, i) => {
+        const d = parseFloat(f.dataset.depth) || 1;
+        tl.to(f, { y: () => -innerHeight * (0.45 + 0.6 * d), x: (i % 2 ? 1 : -1) * 60 * d, rotation: (i % 2 ? 1 : -1) * 14, duration: 1, ease: 'none' }, 0);
+      });
+      tl.to({}, { duration: 0.1 });
+      gsap.delayedCall(0.05, () => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
+    });
 
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: hero, start: 'top top', end: '+=115%', pin: true, scrub: 0.7, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 1 },
+    /* Mobile et tablette : pas d'épinglage (source de saccades sur iOS).
+       La fenêtre suit le scroll naturel et se redresse : un seul calque, une seule transformation. */
+    mm.add('(max-width: 999.98px)', () => {
+      gsap.set(stage, { rotationX: 30, scale: 0.94 });
+      gsap.to(stage, { rotationX: 0, scale: 1, ease: 'none', scrollTrigger: { trigger: wrap, start: 'clamp(top 88%)', end: 'top 32%', scrub: true } });
+      gsap.from('.bars i', { scaleY: 0, duration: 0.8, stagger: 0.04, ease: 'power3.out', scrollTrigger: { trigger: wrap, start: 'top 55%', once: true } });
     });
-    tl.to('.hero-copy', { yPercent: -18, opacity: 0, scale: 0.95, duration: 0.42, ease: 'power2.in' }, 0)
-      .to('.scroll-hint', { opacity: 0, duration: 0.15 }, 0)
-      .to(stage, { rotationX: 0, scale: 1, y: finalY, duration: 1, ease: 'power2.inOut' }, 0)
-      .to('.hero-halo', { yPercent: 16, scale: 1.18, duration: 1, ease: 'none' }, 0)
-      .to('.hero-grid', { yPercent: -7, duration: 1, ease: 'none' }, 0)
-      .from('.kpi, .todo-row', { opacity: 0, y: 14, duration: 0.3, stagger: 0.04, ease: 'power2.out' }, 0.28)
-      .from('.bars i', { scaleY: 0, duration: 0.45, stagger: 0.03, ease: 'power3.out' }, 0.36);
-    $$('.float').forEach((f, i) => {
-      const d = parseFloat(f.dataset.depth) || 1;
-      tl.to(f, { y: () => -innerHeight * (0.45 + 0.6 * d), x: (i % 2 ? 1 : -1) * 60 * d, rotation: (i % 2 ? 1 : -1) * 14, duration: 1, ease: 'none' }, 0);
-    });
-    tl.to({}, { duration: 0.1 });
 
     if (fine) {
       const rx = gsap.quickTo('.win', 'rotationX', { duration: 0.9, ease: 'power3' });
@@ -239,7 +266,10 @@
   function custom() {
     gsap.set('.tab-after', { yPercent: 100 });
     gsap.timeline({ scrollTrigger: { trigger: '#morph', start: 'top 74%', end: 'top 14%', scrub: 0.6 } })
-      .to('#sheet div', { opacity: 0, scale: 0.5, duration: 0.45, stagger: { amount: 0.5, from: 'random' }, ease: 'power2.in' }, 0)
+      /* sur mobile : un seul calque animé au lieu de 54 cellules */
+      .to(light ? '#sheet' : '#sheet div', light
+        ? { opacity: 0, scale: 0.96, duration: 0.5, ease: 'power2.in' }
+        : { opacity: 0, scale: 0.5, duration: 0.45, stagger: { amount: 0.5, from: 'random' }, ease: 'power2.in' }, 0)
       .to('.tab-before', { yPercent: -100, duration: 0.3, ease: 'power2.inOut' }, 0.4)
       .to('.tab-after', { yPercent: 0, duration: 0.3, ease: 'power2.inOut' }, 0.4)
       .from('.app-kpis div, .app-chart, .app-rows div', { opacity: 0, y: 24, scale: 0.94, duration: 0.4, stagger: 0.06, ease: 'power3.out' }, 0.55)
@@ -250,7 +280,8 @@
   function stages() {
     $$('.feature, .contact-card').forEach((card) => {
       gsap.from(card, {
-        scale: 0.9, y: 70, borderRadius: 64, ease: 'none',
+        /* l'arrondi animé repeint toute la carte à chaque image : réservé aux écrans larges */
+        scale: 0.9, y: 70, ...(light ? {} : { borderRadius: 64 }), ease: 'none',
         scrollTrigger: { trigger: card.parentElement, start: 'top 98%', end: 'top 40%', scrub: 0.6 },
       });
     });
@@ -270,23 +301,6 @@
       .to('.msg-draft p', { opacity: 1, duration: 0.5 }, '<')
       .from('.agent-ok', { scale: 0.5, opacity: 0, duration: 0.6, ease: 'back.out(2.2)' }, '+=0.45');
     gsap.to('.ai-glow', { yPercent: 30, ease: 'none', scrollTrigger: { trigger: '.ai', start: 'top bottom', end: 'bottom top', scrub: true } });
-  }
-
-  /* ==========================================================================
-     PREUVES : compteurs
-     ========================================================================== */
-  function proof() {
-    $$('.stat').forEach((stat) => {
-      const b = $('b[data-count]', stat);
-      const to = +b.dataset.count;
-      const o = { v: +b.dataset.from };
-      b.textContent = o.v;
-      gsap.timeline({ scrollTrigger: { trigger: stat, start: 'top 84%', once: true } })
-        .fromTo(stat, { '--rule': 0 }, { '--rule': 1, duration: 1.3, ease: 'expo.out' }, 0)
-        .from($('.stat-v', stat), { yPercent: 50, opacity: 0, duration: 1, ease: 'expo.out' }, 0.05)
-        .from($('p', stat), { y: 20, opacity: 0, duration: 0.9, ease: 'power3.out' }, 0.2)
-        .to(o, { v: to, duration: 1.7, ease: 'power2.out', onUpdate() { b.textContent = Math.round(o.v); } }, 0.2);
-    });
   }
 
   /* ==========================================================================
@@ -332,24 +346,15 @@
      ========================================================================== */
   function micro() {
     if (!fine) return;
-    $$('.magnetic').forEach((el) => {
-      const x = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
-      const y = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
-      el.addEventListener('pointermove', (e) => {
-        const r = el.getBoundingClientRect();
-        x((e.clientX - r.left - r.width / 2) * 0.22);
-        y((e.clientY - r.top - r.height / 2) * 0.32);
-      });
-      el.addEventListener('pointerleave', () => { x(0); y(0); });
-    });
+    /* Les boutons ne bougent plus sous la souris (effet jugé déroutant) : seuls la couleur et la flèche réagissent. */
     $$('.tilt').forEach((el) => {
       gsap.set(el, { transformPerspective: 900 });
       const rx = gsap.quickTo(el, 'rotationX', { duration: 0.5, ease: 'power3' });
       const ry = gsap.quickTo(el, 'rotationY', { duration: 0.5, ease: 'power3' });
       el.addEventListener('pointermove', (e) => {
         const r = el.getBoundingClientRect();
-        ry(((e.clientX - r.left) / r.width - 0.5) * 5);
-        rx(-((e.clientY - r.top) / r.height - 0.5) * 5);
+        ry(((e.clientX - r.left) / r.width - 0.5) * 3);
+        rx(-((e.clientY - r.top) / r.height - 0.5) * 3);
       });
       el.addEventListener('pointerleave', () => { rx(0); ry(0); });
     });
@@ -428,7 +433,6 @@
     custom();
     stages();
     ai();
-    proof();
     closing();
     reveals();
     micro();
